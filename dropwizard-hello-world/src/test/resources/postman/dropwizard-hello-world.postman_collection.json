@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "c49b7097-fcd5-7f8b-db72-e0b0d97ea91d",
+		"name": "dropwizard-hello-world",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9009/hello-world",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXIiOiIxLjAiLCJ1dWlkIjoiYzBhNWFmNDAtODFhYy0xMDJiLTgxNDAtOGIxZDAyNDFmMmY0Iiwic3VpZCI6IjViY2Q2MDM1LTEzZmItNGQ3Yi05MjA5LTJlYjU4YmMwZTAyNSIsInN1YiI6ImNvbmRpcmljZUBzdGFuZGFyZC5jb20iLCJzZmdfcnBfaWQiOiIyMzQyMjkyIiwic2ZnX29yZyI6IlNGR0VtcGxveWVlIiwic2ZnX2lwIjoiMTcyLjIwLjUwLjE4NiIsInNmZ19ncm91cHMiOlsicGRjcmFkIiwic2ZnYWQiLCJjbnRycHQiLCJycGFzcG4iLCJzaWNjbnAiLCJycGFzc3AiLCJycGFkbXciLCJlZXBob21lIiwicHJpc2UiLCJzdGFuZGFyZHNlbGVjdCIsInByb2R1Y2VySW5xdWlyeSIsImdsb2Z1Y2hhIiwiYWRtaW5lYXNlZWdhcCIsIndjY2RhdGEiLCJlYnBheWJpbGxzdXBwb3J0IiwiZnBvcXVvdGVtYW5hZ2VyIiwiZnBvcXVvdGVpbnF1aXJ5IiwiYmFydCIsInJwbGVhcm5pbmciLCJwZW1zIiwid2NtcnBhdXRob3JzIiwiVEFNLVJldGlyZW1lbnRQbGFuQWRtaW5pc3RyYXRvciIsIlRBTS1QYXJ0aWNpcGFudC1SZWFsbHktT2Jzb2xldGUiLCJHQVMtUGFydGljaXBhbnQiLCJHQVMtSW5kaXZpZHVhbFN1cHBvcnRTdGFmZiIsIlJQQVByb3YiLCJycGZpbGVuZXQiXSwic2ZnX2Vzc19pZCI6IjEzOTQ4MTAiLCJyb2xlcyI6WyJTSUNfVVNFUiJdLCJwZXJtaXNzaW9ucyI6WyJSUEFUZXN0IiwiUlBBUFJPViJdLCJuYmYiOjE1MzAzODUzMDEsImlzcyI6InNmZy1lZGdlLWFwaS1nYXRld2F5IiwiaWF0IjoxNTMwMzg1MzAxLCJnaXZlbl9uYW1lIjoiUmljZSIsImZhbWlseV9uYW1lIjoiUmljZSIsImV4cCI6MTUzMDQxNDEwNiwiZHVpZCI6ImRjOGI4MDAwLTU1MGEtNGQ4ZS05Yzk2LWZiZGMyNTE0YWQzOSIsImF1ZCI6InNoYXJlZHNlcnZpY2VzIn0.9XOeuPYmjAL38N_M-LM23gQup_hWnrMVCVR7cfRFPz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-sfg-gtid",
+						"value": "1234-abcd-5678-efgh"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:9009/hello-world",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9009",
+					"path": [
+						"hello-world"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INT /hello-world",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXIiOiIxLjAiLCJ1dWlkIjoiYzBhNWFmNDAtODFhYy0xMDJiLTgxNDAtOGIxZDAyNDFmMmY0Iiwic3VpZCI6IjViY2Q2MDM1LTEzZmItNGQ3Yi05MjA5LTJlYjU4YmMwZTAyNSIsInN1YiI6ImNvbmRpcmljZUBzdGFuZGFyZC5jb20iLCJzZmdfcnBfaWQiOiIyMzQyMjkyIiwic2ZnX29yZyI6IlNGR0VtcGxveWVlIiwic2ZnX2lwIjoiMTcyLjIwLjUwLjE4NiIsInNmZ19ncm91cHMiOlsicGRjcmFkIiwic2ZnYWQiLCJjbnRycHQiLCJycGFzcG4iLCJzaWNjbnAiLCJycGFzc3AiLCJycGFkbXciLCJlZXBob21lIiwicHJpc2UiLCJzdGFuZGFyZHNlbGVjdCIsInByb2R1Y2VySW5xdWlyeSIsImdsb2Z1Y2hhIiwiYWRtaW5lYXNlZWdhcCIsIndjY2RhdGEiLCJlYnBheWJpbGxzdXBwb3J0IiwiZnBvcXVvdGVtYW5hZ2VyIiwiZnBvcXVvdGVpbnF1aXJ5IiwiYmFydCIsInJwbGVhcm5pbmciLCJwZW1zIiwid2NtcnBhdXRob3JzIiwiVEFNLVJldGlyZW1lbnRQbGFuQWRtaW5pc3RyYXRvciIsIlRBTS1QYXJ0aWNpcGFudC1SZWFsbHktT2Jzb2xldGUiLCJHQVMtUGFydGljaXBhbnQiLCJHQVMtSW5kaXZpZHVhbFN1cHBvcnRTdGFmZiIsIlJQQVByb3YiLCJycGZpbGVuZXQiXSwic2ZnX2Vzc19pZCI6IjEzOTQ4MTAiLCJyb2xlcyI6WyJTSUNfVVNFUiJdLCJwZXJtaXNzaW9ucyI6WyJSUEFUZXN0IiwiUlBBUFJPViJdLCJuYmYiOjE1MzAzODUzMDEsImlzcyI6InNmZy1lZGdlLWFwaS1nYXRld2F5IiwiaWF0IjoxNTMwMzg1MzAxLCJnaXZlbl9uYW1lIjoiUmljZSIsImZhbWlseV9uYW1lIjoiUmljZSIsImV4cCI6MTUzMDQxNDEwNiwiZHVpZCI6ImRjOGI4MDAwLTU1MGEtNGQ4ZS05Yzk2LWZiZGMyNTE0YWQzOSIsImF1ZCI6InNoYXJlZHNlcnZpY2VzIn0.9XOeuPYmjAL38N_M-LM23gQup_hWnrMVCVR7cfRFPz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-sfg-gtid",
+						"value": "1234-abcd-5678-efgh"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://pdxlmicni001.standard.com:9009/hello-world",
+					"protocol": "https",
+					"host": [
+						"pdxlmicni001",
+						"standard",
+						"com"
+					],
+					"port": "9009",
+					"path": [
+						"hello-world"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9009/hello-world-caps",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXIiOiIxLjAiLCJ1dWlkIjoiYzBhNWFmNDAtODFhYy0xMDJiLTgxNDAtOGIxZDAyNDFmMmY0Iiwic3VpZCI6IjViY2Q2MDM1LTEzZmItNGQ3Yi05MjA5LTJlYjU4YmMwZTAyNSIsInN1YiI6ImNvbmRpcmljZUBzdGFuZGFyZC5jb20iLCJzZmdfcnBfaWQiOiIyMzQyMjkyIiwic2ZnX29yZyI6IlNGR0VtcGxveWVlIiwic2ZnX2lwIjoiMTcyLjIwLjUwLjE4NiIsInNmZ19ncm91cHMiOlsicGRjcmFkIiwic2ZnYWQiLCJjbnRycHQiLCJycGFzcG4iLCJzaWNjbnAiLCJycGFzc3AiLCJycGFkbXciLCJlZXBob21lIiwicHJpc2UiLCJzdGFuZGFyZHNlbGVjdCIsInByb2R1Y2VySW5xdWlyeSIsImdsb2Z1Y2hhIiwiYWRtaW5lYXNlZWdhcCIsIndjY2RhdGEiLCJlYnBheWJpbGxzdXBwb3J0IiwiZnBvcXVvdGVtYW5hZ2VyIiwiZnBvcXVvdGVpbnF1aXJ5IiwiYmFydCIsInJwbGVhcm5pbmciLCJwZW1zIiwid2NtcnBhdXRob3JzIiwiVEFNLVJldGlyZW1lbnRQbGFuQWRtaW5pc3RyYXRvciIsIlRBTS1QYXJ0aWNpcGFudC1SZWFsbHktT2Jzb2xldGUiLCJHQVMtUGFydGljaXBhbnQiLCJHQVMtSW5kaXZpZHVhbFN1cHBvcnRTdGFmZiIsIlJQQVByb3YiLCJycGZpbGVuZXQiXSwic2ZnX2Vzc19pZCI6IjEzOTQ4MTAiLCJyb2xlcyI6WyJTSUNfVVNFUiJdLCJwZXJtaXNzaW9ucyI6WyJSUEFUZXN0IiwiUlBBUFJPViJdLCJuYmYiOjE1MzAzODUzMDEsImlzcyI6InNmZy1lZGdlLWFwaS1nYXRld2F5IiwiaWF0IjoxNTMwMzg1MzAxLCJnaXZlbl9uYW1lIjoiUmljZSIsImZhbWlseV9uYW1lIjoiUmljZSIsImV4cCI6MTUzMDQxNDEwNiwiZHVpZCI6ImRjOGI4MDAwLTU1MGEtNGQ4ZS05Yzk2LWZiZGMyNTE0YWQzOSIsImF1ZCI6InNoYXJlZHNlcnZpY2VzIn0.9XOeuPYmjAL38N_M-LM23gQup_hWnrMVCVR7cfRFPz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-sfg-gtid",
+						"value": "vzxy-9876-rtrt-5432"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:9009/hello-world-caps",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9009",
+					"path": [
+						"hello-world-caps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INT /hello-world-caps",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXIiOiIxLjAiLCJ1dWlkIjoiYzBhNWFmNDAtODFhYy0xMDJiLTgxNDAtOGIxZDAyNDFmMmY0Iiwic3VpZCI6IjViY2Q2MDM1LTEzZmItNGQ3Yi05MjA5LTJlYjU4YmMwZTAyNSIsInN1YiI6ImNvbmRpcmljZUBzdGFuZGFyZC5jb20iLCJzZmdfcnBfaWQiOiIyMzQyMjkyIiwic2ZnX29yZyI6IlNGR0VtcGxveWVlIiwic2ZnX2lwIjoiMTcyLjIwLjUwLjE4NiIsInNmZ19ncm91cHMiOlsicGRjcmFkIiwic2ZnYWQiLCJjbnRycHQiLCJycGFzcG4iLCJzaWNjbnAiLCJycGFzc3AiLCJycGFkbXciLCJlZXBob21lIiwicHJpc2UiLCJzdGFuZGFyZHNlbGVjdCIsInByb2R1Y2VySW5xdWlyeSIsImdsb2Z1Y2hhIiwiYWRtaW5lYXNlZWdhcCIsIndjY2RhdGEiLCJlYnBheWJpbGxzdXBwb3J0IiwiZnBvcXVvdGVtYW5hZ2VyIiwiZnBvcXVvdGVpbnF1aXJ5IiwiYmFydCIsInJwbGVhcm5pbmciLCJwZW1zIiwid2NtcnBhdXRob3JzIiwiVEFNLVJldGlyZW1lbnRQbGFuQWRtaW5pc3RyYXRvciIsIlRBTS1QYXJ0aWNpcGFudC1SZWFsbHktT2Jzb2xldGUiLCJHQVMtUGFydGljaXBhbnQiLCJHQVMtSW5kaXZpZHVhbFN1cHBvcnRTdGFmZiIsIlJQQVByb3YiLCJycGZpbGVuZXQiXSwic2ZnX2Vzc19pZCI6IjEzOTQ4MTAiLCJyb2xlcyI6WyJTSUNfVVNFUiJdLCJwZXJtaXNzaW9ucyI6WyJSUEFUZXN0IiwiUlBBUFJPViJdLCJuYmYiOjE1MzAzODUzMDEsImlzcyI6InNmZy1lZGdlLWFwaS1nYXRld2F5IiwiaWF0IjoxNTMwMzg1MzAxLCJnaXZlbl9uYW1lIjoiUmljZSIsImZhbWlseV9uYW1lIjoiUmljZSIsImV4cCI6MTUzMDQxNDEwNiwiZHVpZCI6ImRjOGI4MDAwLTU1MGEtNGQ4ZS05Yzk2LWZiZGMyNTE0YWQzOSIsImF1ZCI6InNoYXJlZHNlcnZpY2VzIn0.9XOeuPYmjAL38N_M-LM23gQup_hWnrMVCVR7cfRFPz0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-sfg-gtid",
+						"value": "vzxy-9876-rtrt-5432"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://pdxlmicni001.standard.com:9009/hello-world-caps",
+					"protocol": "https",
+					"host": [
+						"pdxlmicni001",
+						"standard",
+						"com"
+					],
+					"port": "9009",
+					"path": [
+						"hello-world-caps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:10009/healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10009/healthcheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10009",
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:9009/version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:9009/version",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9009",
+					"path": [
+						"version"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

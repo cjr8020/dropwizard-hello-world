@@ -1,0 +1,72 @@
+# Timestamp to make the file unique: ${maven.build.timestamp}
+
+# ----------------------------------
+# application configuration
+# ----------------------------------
+server:
+  applicationConnectors:
+    - type: https
+      port: {{SERVICE_PORT}}
+      keyStorePath: {{KEYSTORE_LOCATION}}
+      keyStorePassword: {{KEYSTORE_PASSWORD}}
+      keyStoreType: JKS
+      keyStoreProvider: SUN
+      trustStoreType: JKS
+      trustStorePath: {{TRUSTSTORE_LOCATION}}
+      trustStorePassword: {{TRUSTSTORE_PASSWORD}}
+      trustStoreType: JKS
+      trustStoreProvider: SUN
+      validateCerts: false
+      validatePeers: false
+      supportedProtocols: [SSLv2Hello, TLSv1, TLSv1.1, TLSv1.2]
+      excludedProtocols: [SSLv3]
+      needClientAuth: false
+      wantClientAuth: false
+  adminConnectors:
+    - type: http
+      port: {{ADMIN_PORT}}
+
+
+# ----------------------------------
+# OAuth2/JWT properties
+# ----------------------------------
+oauth:
+  signingKey: {{OAUTH_JWT_SIGNING_KEY}}
+
+#
+## TEST DB
+#
+database:
+  driverClass: org.h2.Driver
+  user: {{DATABASE_USER}}
+  password: {{DATABASE_PASSWORD}}
+  url: {{DATABASE_URL}}
+
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1 minute
+
+
+#
+## Logging settings
+#
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  appenders:
+    - type: file
+      threshold: INFO
+      logFormat: "[%d] [%-5level] [%thread] [%logger] - [%msg]%n"
+      currentLogFilename: {{LOG_HOME}}
+      archive: true
+      archivedLogFilenamePattern: {{ARCHIVED_LOG_HOME}}
+      archivedFileCount: 5
+      timeZone: UTC

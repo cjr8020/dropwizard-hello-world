@@ -1,0 +1,469 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.standard.demo</groupId>
+    <artifactId>dropwizard-hello-world-parent</artifactId>
+    <version>1.0.7-SNAPSHOT</version>
+  </parent>
+  <artifactId>dropwizard-hello-world-dar</artifactId>
+  <version>1.0.7-SNAPSHOT</version>
+  <packaging>dar</packaging>
+  <name>dropwizard-hello-world-dar</name>
+
+  <properties>
+    <!--  applicationName must match the GitHub repository name
+          applicationName and tagValue are used in all 3 profiles -->
+    <applicationGroup>${project.groupId}</applicationGroup>
+    <applicationName>dropwizard-hello-world</applicationName>
+    <applicationInstall>${applicationName}.install.sh</applicationInstall>
+    <applicationUninstall>${applicationName}.uninstall.sh</applicationUninstall>
+    <dollar>$</dollar>
+    <open>{</open>
+    <close>}</close>
+    <tmpDir>/opt/apps/pojoapps/xl-deploy-tmp</tmpDir>
+    <serviceName>dropwizard-hello-world</serviceName>
+    <targetPath>/opt/apps/pojoapps</targetPath>
+    <tagValue>microservice1</tagValue>
+    <!-- These default values may be overriden by the build server -->
+    <xlDeployServerAddress>localhost</xlDeployServerAddress>
+    <xlDeployPort>4516</xlDeployPort>
+    <xlDeploySecured>false</xlDeploySecured>
+    <xlDeployEnvironmentId>Environments/INT/Microservice</xlDeployEnvironmentId>
+    <xlDeployGenerateDeployedOnUpgrade>true</xlDeployGenerateDeployedOnUpgrade>
+    <xlDeploySkipMode>false</xlDeploySkipMode>
+    <xlDeployTestMode>false</xlDeployTestMode>
+  </properties>
+
+  <!-- Default case where we embed the artifacts into the DAR file works even for SNAPSHOTs -->
+  <profiles>
+    <profile>
+      <id>xlDeployEmbedded</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <!-- These dependencies are used by the embedded jee.Ear -->
+      <dependencies>
+        <dependency>
+          <groupId>${applicationGroup}</groupId>
+          <artifactId>${serviceName}</artifactId>
+          <version>${project.version}</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.xebialabs.xldeploy</groupId>
+            <artifactId>xldeploy-maven-plugin</artifactId>
+            <version>5.1.0</version>
+            <configuration>
+              <applicationName>${applicationName}</applicationName>
+              <deployables>
+                <cmd.Command name="${applicationName}.install_uninstall">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <commandLine>/usr/bin/bash ${dollar}${open}${applicationInstall}${close} ${targetPath}/${applicationName}</commandLine>
+                  <dependencies>
+                    <ci ref="${applicationInstall}"/>
+                  </dependencies>
+                  <order>75</order>
+                  <undoCommandLine>/usr/bin/bash ${dollar}${open}${applicationUninstall}${close} ${targetPath}/${applicationName}</undoCommandLine>
+                  <undoDependencies>
+                    <ci ref="${applicationUninstall}"/>
+                  </undoDependencies>
+                  <undoOrder>25</undoOrder>
+                  <runUndoCommandOnUpgrade>true</runUndoCommandOnUpgrade>
+                </cmd.Command>
+                <file.File name="${applicationInstall}" location="target/classes/install-template.sh"
+                           targetFile="${applicationInstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationUninstall}" location="target/classes/uninstall-template.sh"
+                           targetFile="${applicationUninstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationName}.yml" location="target/classes/configuration-template.yml"
+                           targetFile="${applicationName}.yml">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | yml | yaml)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.sh" location="target/classes/service-template.sh"
+                           targetFile="${serviceName}.sh">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | sh)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.jar" groupId="${applicationGroup}" artifactId="${serviceName}"
+                           artifactType="jar" targetFile="${serviceName}.jar">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+              </deployables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- Artifacts have already been deployed to Maven repository with a unique qualifyer, does not work with SNAPSHOTs -->
+    <profile>
+      <id>xlDeployMavenRepository</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${applicationGroup}</groupId>
+          <artifactId>${serviceName}</artifactId>
+          <version>${project.version}</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.xebialabs.xldeploy</groupId>
+            <artifactId>xldeploy-maven-plugin</artifactId>
+            <version>5.1.0</version>
+            <configuration>
+              <applicationName>${applicationName}</applicationName>
+              <deployables>
+                <cmd.Command name="${applicationName}.install_uninstall">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <commandLine>/usr/bin/bash ${dollar}${open}${applicationInstall}${close} ${targetPath}/${applicationName}</commandLine>
+                  <dependencies>
+                    <ci ref="${applicationInstall}"/>
+                  </dependencies>
+                  <order>75</order>
+                  <undoCommandLine>/usr/bin/bash ${dollar}${open}${applicationUninstall}${close} ${targetPath}/${applicationName}</undoCommandLine>
+                  <undoDependencies>
+                    <ci ref="${applicationUninstall}"/>
+                  </undoDependencies>
+                  <undoOrder>25</undoOrder>
+                  <runUndoCommandOnUpgrade>true</runUndoCommandOnUpgrade>
+                </cmd.Command>
+                <file.File name="${applicationInstall}" location="target/classes/install-template.sh"
+                           targetFile="${applicationInstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationUninstall}" location="target/classes/uninstall-template.sh"
+                           targetFile="${applicationUninstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationName}.yml" location="target/classes/configuration-template.yml"
+                           targetFile="${applicationName}.yml">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | yml | yaml)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.sh" location="target/classes/service-template.sh"
+                           targetFile="${serviceName}.sh">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | sh)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.jar" targetFile="${serviceName}.jar">
+                  <fileUri>maven:${applicationGroup}:${serviceName}:jar:${project.version}</fileUri>
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+              </deployables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- Artifacts will be archived in Jenkins repository with a unique qualifyer, does not work with SNAPSHOTs -->
+    <profile>
+      <id>xlDeployJenkinsRepository</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${applicationGroup}</groupId>
+          <artifactId>${serviceName}</artifactId>
+          <version>${project.version}</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <properties>
+        <buildUrl>http://localhost/</buildUrl>
+        <prefixUri>${buildUrl}artifact/${project.artifactId}/target/xlDeployJenkinsRepository/</prefixUri>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.xebialabs.xldeploy</groupId>
+            <artifactId>xldeploy-maven-plugin</artifactId>
+            <version>5.1.0</version>
+            <configuration>
+              <applicationName>${applicationName}</applicationName>
+              <deployables>
+                <cmd.Command name="${applicationName}.install_uninstall">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <commandLine>/usr/bin/bash ${dollar}${open}${applicationInstall}${close} ${targetPath}/${applicationName}</commandLine>
+                  <dependencies>
+                    <ci ref="${applicationInstall}"/>
+                  </dependencies>
+                  <order>75</order>
+                  <undoCommandLine>/usr/bin/bash ${dollar}${open}${applicationUninstall}${close} ${targetPath}/${applicationName}</undoCommandLine>
+                  <undoDependencies>
+                    <ci ref="${applicationUninstall}"/>
+                  </undoDependencies>
+                  <undoOrder>25</undoOrder>
+                  <runUndoCommandOnUpgrade>true</runUndoCommandOnUpgrade>
+                </cmd.Command>
+                <file.File name="${applicationInstall}" location="target/classes/install-template.sh"
+                           targetFile="${applicationInstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationUninstall}" location="target/classes/uninstall-template.sh"
+                           targetFile="${applicationUninstall}">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+                <file.File name="${applicationName}.yml" location="target/classes/configuration-template.yml"
+                           targetFile="${applicationName}.yml">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | yml | yaml)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.sh" location="target/classes/service-template.sh"
+                           targetFile="${serviceName}.sh">
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>true</scanPlaceholders>
+                  <delimiters>{{ }}</delimiters>
+                  <excludeFileNamesRegex></excludeFileNamesRegex>
+                  <textFileNamesRegex>.+\.(properties | sh)</textFileNamesRegex>
+                  <fileEncodings>
+                    <entry key=".+\.(yml | yaml)">UTF-8</entry>
+                    <entry key=".+\.(properties)">ISO-8859-1</entry>
+                  </fileEncodings>
+                </file.File>
+                <file.File name="${applicationName}.jar" targetFile="${serviceName}.jar">
+                  <fileUri>${prefixUri}${serviceName}-${project.version}.jar</fileUri>
+                  <tags>
+                    <value>${tagValue}</value>
+                  </tags>
+                  <targetPath>${targetPath}/${applicationName}</targetPath>
+                  <targetPathShared>false</targetPathShared>
+                  <createTargetPath>true</createTargetPath>
+                  <scanPlaceholders>false</scanPlaceholders>
+                </file.File>
+              </deployables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <execution>
+                <id>copy-dependencies</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <outputDirectory>${project.build.directory}/xlDeployJenkinsRepository</outputDirectory>
+              <excludeTransitive>true</excludeTransitive>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <useDefaultDelimiters>true</useDefaultDelimiters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <skipAssembly>true</skipAssembly>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.xebialabs.xldeploy</groupId>
+        <artifactId>xldeploy-maven-plugin</artifactId>
+        <version>5.1.0</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <serverAddress>${xlDeployServerAddress}</serverAddress>
+          <port>${xlDeployPort}</port>
+          <secured>${xlDeploySecured}</secured>
+          <environmentId>${xlDeployEnvironmentId}</environmentId>
+          <generateDeployedOnUpgrade>${xlDeployGenerateDeployedOnUpgrade}</generateDeployedOnUpgrade>
+          <skipMode>${xlDeploySkipMode}</skipMode>
+          <testMode>${xlDeployTestMode}</testMode>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>ant-test</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <fixcrlf srcdir="${project.basedir}/target/classes" includes="**/*" eol="lf" eof="remove"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

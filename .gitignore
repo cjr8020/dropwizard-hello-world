@@ -1,0 +1,66 @@
+### application
+logs/
+*.h2.db
+*.lock.db
+#test.properties
+
+### Eclipse
+.project
+
+### Java
+
+*.class
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Gradle
+.gradle/
+build/
+
+### Maven
+.repository/
+target/
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+buildNumber.properties
+.mvn/timing.properties
+
+
+####### common ignores below #######
+
+
+### Eclipse/RAD
+.settings/
+.metadata/
+classes/
+
+### JetBrains IntellijIDEA/WebStorm
+.idea/
+*.iml
+*.iws
+
+### Mac
+.DS_Store
+
+### Numerous always-ignore extensions
+*.diff
+*.bak
+*.tmp
+*.moved
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+*~

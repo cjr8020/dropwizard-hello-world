@@ -1,0 +1,58 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 65000
+      bindHost: 127.0.0.1
+  adminConnectors:
+    - type: http
+      port: 65001
+      bindHost: 127.0.0.1
+  requestLog:
+    type: classic
+    timeZone: UTC
+    appenders: []
+
+
+# ----------------------------------
+# OAuth2/JWT properties
+# ----------------------------------
+oauth:
+  signingKey: <your-signing-key-here>
+
+
+database:
+  driverClass: org.h2.Driver
+  user: sa
+  password:
+  url: jdbc:h2:mem:DEMO_DB;MODE=Oracle;MV_STORE=FALSE;MVCC=FALSE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  properties:
+    charSet: UTF-8
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1 minute
+
+
+#
+## Logging settings
+#
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: OFF
+
+  appenders:
+    - type: console
+      threshold: ALL
+      target: stderr
+
+    - type: file
+      threshold: ALL
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: ./logs/dropwizard-hello-world.log
+      archivedLogFilenamePattern: ./logs/dropwizard-hello-world-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC

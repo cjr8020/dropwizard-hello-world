@@ -1,0 +1,4 @@
+{
+  "dropwizard-hello-world.version" : "${project.version}",
+  "build.timestamp" : "${timestamp}"
+}

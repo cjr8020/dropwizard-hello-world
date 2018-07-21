@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.standard.demo</groupId>
+	<artifactId>dropwizard-hello-world-parent</artifactId>
+	<version>1.0.7-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>dropwizard-hello-world-parent</name>
+    <description>
+        Sample Dropwizard v0.9.2 based REST java microservice
+        in support of deployment and infrastructure support testing
+    </description>
+
+	<modules>
+		<module>dropwizard-hello-world</module>
+		<module>dropwizard-hello-world-dar</module>
+	</modules>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>https://nexus.standard.com:8443/nexus/repository/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Internal Releases</name>
+			<url>https://nexus.standard.com:8443/nexus/repository/releases/</url>
+		</repository>
+	</distributionManagement>
+</project>
